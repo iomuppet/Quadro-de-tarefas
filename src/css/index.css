@@ -30,15 +30,16 @@ body {
     gap: 18px;
     height: 100%;
     overflow-y: auto;
-    background-color: azure;
+    background-color: #f6f8fc;
     border-radius: 12px;
     box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
     padding: 12px;
     overflow: hidden;
+    position: relative;
     min-width: 252px;
 }
 
-.kanban-columm::after {
+.kanban-column::after {
     position: absolute;
     content: '';
     height: 5px;
@@ -47,10 +48,22 @@ body {
     left: 0;
 }
 
-.kanban-columm [data-id="1"]::after {
+.kanban-column[data-id="1"]::after {
     background-color: #d573b6;
 }
 
-.kanban-columm[data-id="2"]::after {
-    background-color: #d573b6;
+.kanban-column[data-id="2"]::after {
+    background-color: #fea065;
+}
+
+.kanban-column[data-id="3"]::after {
+    background-color: #fed565;
+}
+
+.kanban-column[data-id="4"]::after {
+    background-color: #92a5fb;
+}
+
+.kanban-column[data-id="5"]::after {
+    background-color: #6ed0bc;
 }
