@@ -37,6 +37,7 @@ body {
     overflow: hidden;
     position: relative;
     min-width: 252px;
+    max-width: 252px;
 }
 
 .kanban-column::after {
@@ -66,6 +67,14 @@ body {
 
 .kanban-column[data-id="5"]::after {
     background-color: #6ed0bc;
+}
+
+.kanban-column[data-id="6"]::after {
+    background-color: #6e9cd0;
+}
+
+.kanban-column[data-id="7"]::after {
+    background-color: #d06eaf;
 }
 
 .kanban-title {
@@ -171,4 +180,10 @@ body {
 *::-webkit-scrollbar-thumb {
     background-color: #bed3ff;
     border-radius: 20px;
+}
+
+.select-hidden {
+    position: absolute; /* Remove da visualização */
+    left: -9999px; /* Move para fora da tela */
+    opacity: 0; /* Torna invisível */
 }
