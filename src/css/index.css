@@ -126,7 +126,7 @@ body {
 }
 
 .badge.high {
-    background-color: #d573b6;
+    background-color: #df5959;
 }
 
 .badge.medium {
@@ -157,6 +157,14 @@ body {
     height: 42px;
     border-radius: 100%;
     object-fit: cover;
+}
+
+.trash {
+    color: #4b5563;
+    font-size: 20px;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;    
 }
 
 .dragging {
