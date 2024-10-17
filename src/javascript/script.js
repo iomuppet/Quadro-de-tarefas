@@ -30,32 +30,39 @@ document.querySelectorAll('.kanban-cards').forEach(column => {
         e.currentTarget.appendChild(dragCard);
         saveState(); // Salva o estado após o drop
     });
+});
 
-    // Eventos de toque para dispositivos móveis
-    column.addEventListener('touchstart', e => {
-        if (e.target.classList.contains('kanban-card')) {
-            e.target.classList.add('dragging');
-        }
+// Adiciona eventos de toque para cada cartão
+document.querySelectorAll('.kanban-card').forEach(card => {
+    card.addEventListener('touchstart', function (e) {
+        e.preventDefault(); // Impede ações padrão do toque
+        this.classList.add('dragging');
+        this.initialTouch = e.touches[0];
     });
 
-    column.addEventListener('touchmove', e => {
-        const dragCard = document.querySelector('.kanban-card.dragging');
-        if (dragCard) {
-            const touch = e.touches[0];
-            dragCard.style.position = 'absolute';
-            dragCard.style.left = `${touch.clientX - dragCard.offsetWidth / 2}px`;
-            dragCard.style.top = `${touch.clientY - dragCard.offsetHeight / 2}px`;
-        }
+    card.addEventListener('touchmove', function (e) {
+        const touch = e.touches[0];
+        this.style.position = 'absolute';
+        this.style.left = `${touch.clientX - this.offsetWidth / 2}px`;
+        this.style.top = `${touch.clientY - this.offsetHeight / 2}px`;
     });
 
-    column.addEventListener('touchend', e => {
-        const dragCard = document.querySelector('.kanban-card.dragging');
-        if (dragCard) {
-            e.currentTarget.appendChild(dragCard);
-            dragCard.classList.remove('dragging');
-            dragCard.style.position = ''; // Resetar a posição
-            saveState(); // Salva o estado após o drop
-        }
+    card.addEventListener('touchend', function (e) {
+        const columns = document.querySelectorAll('.kanban-cards');
+        const card = this;
+        card.classList.remove('dragging');
+        card.style.position = ''; // Resetar a posição
+
+        columns.forEach(column => {
+            const rect = column.getBoundingClientRect();
+            const isInColumn = touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                               touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+            if (isInColumn) {
+                column.appendChild(card);
+            }
+        });
+
+        saveState(); // Salva o estado após o drop
     });
 });
 
