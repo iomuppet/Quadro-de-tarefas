@@ -243,8 +243,8 @@ function createCard() {
                 <p><i class="fa-regular fa-comment"></i> 0</p>
                 <p><i class="fa-solid fa-paperclip"></i> 0</p>
             </div>
-                <button class="trash"><i class="fa-solid fa-trash"></i></button>
-            </div>
+            <button class="trash"><i class="fa-solid fa-trash"></i></button>
+        </div>
     `;
 
     addCardEvents(newCard);
