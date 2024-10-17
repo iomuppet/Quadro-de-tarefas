@@ -28,6 +28,34 @@ document.querySelectorAll('.kanban-cards').forEach(column => {
 
         const dragCard = document.querySelector('.kanban-card.dragging');
         e.currentTarget.appendChild(dragCard);
+        saveState(); // Salva o estado após o drop
+    });
+
+    // Eventos de toque para dispositivos móveis
+    column.addEventListener('touchstart', e => {
+        if (e.target.classList.contains('kanban-card')) {
+            e.target.classList.add('dragging');
+        }
+    });
+
+    column.addEventListener('touchmove', e => {
+        const dragCard = document.querySelector('.kanban-card.dragging');
+        if (dragCard) {
+            const touch = e.touches[0];
+            dragCard.style.position = 'absolute';
+            dragCard.style.left = `${touch.clientX - dragCard.offsetWidth / 2}px`;
+            dragCard.style.top = `${touch.clientY - dragCard.offsetHeight / 2}px`;
+        }
+    });
+
+    column.addEventListener('touchend', e => {
+        const dragCard = document.querySelector('.kanban-card.dragging');
+        if (dragCard) {
+            e.currentTarget.appendChild(dragCard);
+            dragCard.classList.remove('dragging');
+            dragCard.style.position = ''; // Resetar a posição
+            saveState(); // Salva o estado após o drop
+        }
     });
 });
 
@@ -173,7 +201,6 @@ function addCardEvents(card) {
     // Salva o estado ao arrastar os cartões
     card.addEventListener('dragend', saveState);
 }
-
 
 // Função para criar um novo cartão
 function createCard() {
