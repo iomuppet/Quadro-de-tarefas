@@ -38,13 +38,18 @@ document.querySelectorAll('.kanban-card').forEach(card => {
         e.preventDefault(); // Impede ações padrão do toque
         this.classList.add('dragging');
         this.initialTouch = e.touches[0];
+        
+        // Ajusta a posição do cartão para que o toque siga o dedo
+        this.style.position = 'absolute';
+        this.style.zIndex = '1000'; // Mantém o cartão acima dos outros elementos
+
+        document.body.appendChild(this); // Remove o cartão do fluxo do DOM
+
+        moveCard(e); // Move o cartão imediatamente
     });
 
     card.addEventListener('touchmove', function (e) {
-        const touch = e.touches[0];
-        this.style.position = 'absolute';
-        this.style.left = `${touch.clientX - this.offsetWidth / 2}px`;
-        this.style.top = `${touch.clientY - this.offsetHeight / 2}px`;
+        moveCard(e); // Atualiza a posição do cartão enquanto se move
     });
 
     card.addEventListener('touchend', function (e) {
@@ -52,11 +57,13 @@ document.querySelectorAll('.kanban-card').forEach(card => {
         const card = this;
         card.classList.remove('dragging');
         card.style.position = ''; // Resetar a posição
+        card.style.zIndex = ''; // Resetar zIndex
 
+        // Verifica em qual coluna o cartão deve ser solto
         columns.forEach(column => {
             const rect = column.getBoundingClientRect();
-            const isInColumn = touch.clientX >= rect.left && touch.clientX <= rect.right &&
-                               touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+            const isInColumn = e.changedTouches[0].clientX >= rect.left && e.changedTouches[0].clientX <= rect.right &&
+                               e.changedTouches[0].clientY >= rect.top && e.changedTouches[0].clientY <= rect.bottom;
             if (isInColumn) {
                 column.appendChild(card);
             }
@@ -65,6 +72,16 @@ document.querySelectorAll('.kanban-card').forEach(card => {
         saveState(); // Salva o estado após o drop
     });
 });
+
+// Função que move o cartão com base na posição do toque
+function moveCard(e) {
+    const card = document.querySelector('.kanban-card.dragging');
+    if (card) {
+        const touch = e.touches[0];
+        card.style.left = `${touch.clientX - card.offsetWidth / 2}px`;
+        card.style.top = `${touch.clientY - card.offsetHeight / 2}px`;
+    }
+}
 
 // Função para salvar o estado das colunas e cartões no localStorage
 function saveState() {
@@ -234,7 +251,8 @@ function createCard() {
     addCardEvents(newCard);
     column.querySelector('.kanban-cards').appendChild(newCard);
 
-    saveState(); // Salva o estado ao adicionar um novo cartão
+    saveState(); // Salva o estado
+
 }
 
 // Adiciona eventos aos botões de adicionar cartão
