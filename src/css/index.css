@@ -96,6 +96,14 @@ body {
     border: none;    
 }
 
+.kanban-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.kanban-card:hover {
+    transform: scale(1.02);
+}
+
 .kanban-cards {
     display: flex;
     flex-direction: column;

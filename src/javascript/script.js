@@ -37,7 +37,6 @@ document.querySelectorAll('.kanban-card').forEach(card => {
     card.addEventListener('touchstart', function (e) {
         e.preventDefault(); // Impede ações padrão do toque
         this.classList.add('dragging');
-        this.initialTouch = e.touches[0];
         
         // Ajusta a posição do cartão para que o toque siga o dedo
         this.style.position = 'absolute';
@@ -252,7 +251,6 @@ function createCard() {
     column.querySelector('.kanban-cards').appendChild(newCard);
 
     saveState(); // Salva o estado
-
 }
 
 // Adiciona eventos aos botões de adicionar cartão
